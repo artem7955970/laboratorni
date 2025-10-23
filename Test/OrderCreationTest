@@ -1,1 +1,58 @@
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayName;
+import static org.junit.jupiter.api.Assertions.*;
+import java.util.Arrays;
+import java.util.List;
 
+public class OrderCreationTest {
+
+    private Validation validator;
+
+    @BeforeEach
+    void setUp() {
+        validator = new Validation();
+    }
+
+    @Test
+    @DisplayName("Помилка: не обрано послугу")
+    void testNoServiceSelected() {
+        List<String> selectedServices = Arrays.asList();
+        assertFalse(validator.areServicesSelected(selectedServices));
+    }
+
+    @Test
+    @DisplayName("Помилка: не вказано вулицю")
+    void testNoStreetSelected() {
+        String street = "";
+        assertFalse(validator.isStreetSelected(street));
+    }
+
+    @Test
+    @DisplayName("Помилка: не вказано номер будинку")
+    void testNoHouseNumber() {
+        String houseNumber = "";
+        assertFalse(validator.isHouseNumberValid(houseNumber));
+    }
+
+    @Test
+    @DisplayName("Помилка: некоректне ПІБ")
+    void testInvalidClientName() {
+        String clientName = "Іван";
+        assertFalse(validator.isValidClientName(clientName));
+    }
+
+
+    @Test
+    @DisplayName("Замовлення створено успішно")
+    void testSuccessfulOrderCreation() {
+        List<String> selectedServices = Arrays.asList("Озеленення території");
+        String street = "Тестова вулиця";
+        String houseNumber = "123";
+        String clientName = "Петренко Іван Васильович";
+        assertTrue(validator.areServicesSelected(selectedServices));
+        assertTrue(validator.isStreetSelected(street));
+        assertTrue(validator.isHouseNumberValid(houseNumber));
+        assertTrue(validator.isValidClientName(clientName));
+    }
+}
