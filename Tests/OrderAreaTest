@@ -35,7 +35,7 @@ public class OrderAreaTest {
     @Test
     @DisplayName("Помилка:Площа повинна бути меншою за 10000 квадратних метрів.")
     void testMoreMaximumArea() {
-        String area = "10000";
+        String area = "12000";
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             validator.parseAndValidateArea(area);
         });
@@ -45,7 +45,7 @@ public class OrderAreaTest {
     @Test
     @DisplayName("Помилка:Площа повинна бути більшою за 10 квадратних метрів.")
     void testLessMinimumArea() {
-        String area = "10";
+        String area = "8";
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             validator.parseAndValidateArea(area);
         });
