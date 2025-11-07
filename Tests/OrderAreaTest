@@ -1,0 +1,62 @@
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayName;
+import static org.junit.jupiter.api.Assertions.*;
+
+
+public class OrderAreaTest {
+
+    private Validation validator;
+
+    @BeforeEach
+    void setUp() {
+        validator = new Validation();
+    }
+
+    @Test
+    @DisplayName("Помилка: Площа не може бути порожньою.")
+    void testEmptyArea() {
+        String area = "";
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            validator.parseAndValidateArea(area);
+        });
+        assertEquals("Площа не може бути порожньою.", exception.getMessage());
+    }
+    @Test
+    @DisplayName("Помилка: Невірний формат площі. Використовуйте числа (наприклад, 100.5).")
+    void testSymbolArea() {
+        String area = "a";
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            validator.parseAndValidateArea(area);
+        });
+        assertEquals("Невірний формат площі. Використовуйте числа (наприклад, 100.5).", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("Помилка:Площа повинна бути меншою за 10000 квадратних метрів.")
+    void testMoreMaximumArea() {
+        String area = "10000";
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            validator.parseAndValidateArea(area);
+        });
+        assertEquals("Площа повинна бути меншою за 10000 квадратних метрів.", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("Помилка:Площа повинна бути більшою за 10 квадратних метрів.")
+    void testLessMinimumArea() {
+        String area = "10";
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            validator.parseAndValidateArea(area);
+        });
+        assertEquals("Площа повинна бути більшою за 10 квадратних метрів.", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("Помилка:Площа повинна бути більшою за 10 квадратних метрів.")
+    void testCorrectArea() {
+        String area = "52";
+        float check = validator.parseAndValidateArea(area);
+        assertTrue(Float.parseFloat(area) == check);
+    }
+}
