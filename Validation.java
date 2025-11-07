@@ -59,10 +59,10 @@ public class Validation {
         }
         try {
             float area = Float.parseFloat(areaText.replace(",", "."));
-            if (area <= 10) {
+            if (area < 10) {
                 throw new IllegalArgumentException("Площа повинна бути більшою за 10 квадратних метрів.");
             }
-            if (area >= 10000) {
+            if (area > 10000) {
                 throw new IllegalArgumentException("Площа повинна бути меншою за 10000 квадратних метрів.");
             }
             return area;
@@ -102,4 +102,5 @@ public class Validation {
         }
     }
 }
+
 
