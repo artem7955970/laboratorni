@@ -1,0 +1,66 @@
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayName;
+import static org.junit.jupiter.api.Assertions.*;
+public class OrderGranitsiaTest {
+
+    private Validation validator;
+    @BeforeEach
+    void setUp() {
+        validator = new Validation();
+    }
+
+    @Test
+    @DisplayName("Максимальне граничне значення")
+    void testMaxArea() {
+        String area = "10000";
+        float check = validator.parseAndValidateArea(area);
+        assertTrue(Float.parseFloat(area) == check);
+    }
+
+    @Test
+    @DisplayName("Мінімальне граничне значення")
+    void testMinArea() {
+        String area = "10";
+        float check = validator.parseAndValidateArea(area);
+        assertTrue(Float.parseFloat(area) == check);
+    }
+
+    @Test
+    @DisplayName("Після мінімального граничного значення")
+    void testAfterMinArea() {
+        String area = "10.0001";
+        float check = validator.parseAndValidateArea(area);
+        assertTrue(Float.parseFloat(area) == check);
+    }
+
+    @Test
+    @DisplayName("Перед максимальним граничним значенням")
+    void testBeforeMaxArea() {
+        String area = "9999.999";
+        float check = validator.parseAndValidateArea(area);
+        assertTrue(Float.parseFloat(area) == check);
+    }
+
+    @Test
+    @DisplayName("Перед мінімальним граничним значенням.")
+    void testLessMinimumArea() {
+        String area = "9.999";
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            validator.parseAndValidateArea(area);
+        });
+        assertEquals("Площа повинна бути більшою за 10 квадратних метрів.", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("Після максимального граничного значення.")
+    void testMoreMaximumArea() {
+        String area = "10000.001";
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            validator.parseAndValidateArea(area);
+        });
+        assertEquals("Площа повинна бути меншою за 10000 квадратних метрів.", exception.getMessage());
+    }
+
+
+}
